@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "name": "rocky-dl-api",
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    }
+  ]
+}
