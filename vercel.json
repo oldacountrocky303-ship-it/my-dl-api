@@ -1,6 +1,9 @@
 {
   "version": 2,
-  "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1" }
-  ]
+  "functions": {
+    "api/download.js": {
+      "memory": 512,
+      "maxDuration": 30
+    }
+  }
 }
