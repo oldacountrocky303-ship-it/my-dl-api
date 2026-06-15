@@ -10,20 +10,21 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const options = {
-      method: "GET",
-      url: "https://social-media-video-downloader.p.rapidapi.com/smvd/get/all",
-      params: { url },
-      headers: {
-        "X-RapidAPI-Key": process.env.RAPIDAPI_KEY,
-        "X-RapidAPI-Host": "social-media-video-downloader.p.rapidapi.com"
+    const response = await axios.post(
+      "https://all-social-media-video-downloader4.p.rapidapi.com/index.php",
+      new URLSearchParams({ url }).toString(),
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "x-rapidapi-host": "all-social-media-video-downloader4.p.rapidapi.com",
+          "x-rapidapi-key": process.env.RAPIDAPI_KEY
+        }
       }
-    };
+    );
 
-    const response = await axios.request(options);
     const data = response.data;
 
-    if (!data || !data.links || data.links.length === 0) {
+    if (!data || !data.links) {
       return res.status(404).json({ error: "No video found" });
     }
 
@@ -33,7 +34,7 @@ module.exports = async (req, res) => {
       data.links[0];
 
     return res.status(200).json({
-      result: videoLink.link,
+      result: videoLink.link || videoLink.url,
       cp: `🎬 ${data.title || "Video"}\n👤 Rocky Chowdhury`
     });
 
