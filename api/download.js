@@ -10,32 +10,27 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const response = await axios.post(
-      "https://all-social-media-video-downloader4.p.rapidapi.com/index.php",
-      new URLSearchParams({ url }).toString(),
+    const apiUrl = `https://api.cobalt.tools/`;
+    
+    const response = await axios.post(apiUrl, 
+      { url: url },
       {
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "x-rapidapi-host": "all-social-media-video-downloader4.p.rapidapi.com",
-          "x-rapidapi-key": process.env.RAPIDAPI_KEY
+          "Accept": "application/json",
+          "Content-Type": "application/json"
         }
       }
     );
 
     const data = response.data;
 
-    if (!data || !data.links) {
+    if (!data || !data.url) {
       return res.status(404).json({ error: "No video found" });
     }
 
-    const videoLink =
-      data.links.find(l => l.quality === "hd") ||
-      data.links.find(l => l.quality === "sd") ||
-      data.links[0];
-
     return res.status(200).json({
-      result: videoLink.link || videoLink.url,
-      cp: `🎬 ${data.title || "Video"}\n👤 Rocky Chowdhury`
+      result: data.url,
+      cp: `🎬 ${data.filename || "Video"}\n👤 Rocky Chowdhury`
     });
 
   } catch (err) {
