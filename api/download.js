@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
 
     return res.status(200).json({
       result: videoLink.link,
-      cp: `🎬 Video Downloaded!\n👤 Rocky Chowdhury Bot`
+      cp: `🎬 ${data.title || "Video"}\n👤 Rocky Chowdhury`
     });
 
   } catch (err) {
